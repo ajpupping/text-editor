@@ -27,4 +27,43 @@ warmStrategyCache({
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
 // TODO: Implement asset caching
+
+// style caching
+registerRoute(
+  ({ request }) => request.destination === 'style',
+  new CacheFirst({
+    cacheName: 'style-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      // cache for 30 days, limit to 50 entries
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 30,
+        maxEntries: 50,
+      }),
+    ],
+  })
+);
+
+// image caching
+registerRoute(
+  ({ request }) => request.destination === 'image',
+  new CacheFirst({
+    cacheName: 'image-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      // cache for 30 days, limit to 50 entries
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 30,
+        maxEntries: 50,
+      }),
+    ],
+  })
+);
+
+// TODO: Implement offline fallback
+
 registerRoute();
