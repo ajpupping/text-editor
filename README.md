@@ -6,7 +6,7 @@ The purpose of this project was to build a Progressive Web Application using the
 
 ## Installation
 
-To install this application, [click here](#) to visit the deployed site, and then on the install button. If the application is installed correctly, you should receive a confirmation alert. You will then be able to find the J.A.T.E installed on your device. 
+To install this application, [click here](https://ajp-text-editor.onrender.com/) to visit the deployed site, and then on the install button. If the application is installed correctly, you should receive a confirmation alert. You will then be able to find the J.A.T.E installed on your device. 
 
 ## Usage 
 
