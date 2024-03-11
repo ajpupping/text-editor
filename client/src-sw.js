@@ -26,8 +26,6 @@ warmStrategyCache({
 
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
-// TODO: Implement asset caching
-
 // asset caching (includes style, script, and service worker files)
 registerRoute(
   ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
@@ -46,11 +44,5 @@ registerRoute(
   );
   
 
-// TODO: Implement offline fallback
-offlineFallback({
-  pageFallback: '/index.html',
-  imageFallback: '/images/logo.png',
-  documentFallback: '/index.html',
-  cacheName: 'offline-fallback',
-  strategy: pageCache,
-})
+// Offline fallback
+offlineFallback();

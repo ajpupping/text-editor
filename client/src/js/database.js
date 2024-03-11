@@ -15,36 +15,36 @@ const initdb = async () =>
 
 // Put content into the database
 export const putDb = async (content) => {
-  console.log('PUT to the database')
-// connect to the database
-  const db = await openDB('jate', 1);
-// create a transaction and specify permissions 
-const tx = db.transaction('jate', 'readwrite');
-// access the object store
-const store = tx.objectStore('jate');
-// add the content to the store
-const request = store.put({ id: 1, value: content})
-// confirm the data was added successfully
-const result = await request;
-console.log('data added to the database', result);
-}
+  console.log('PUT into the database')
+
+  try{
+    const db = await openDB('jate', 1);
+    const tx = db.transaction('jate', 'readwrite');
+    const store = tx.objectStore('jate');
+
+    const request = store.put({ id: 1, value: content});
+    const result = await request;
+    console.log('Data saved to the database', result)
+  } catch (error) {
+    console.log('Error saving data to the database', error)
+  }
+  };
 
 // Get all the content from the database
 export const getDb = async () => {
-  console.log('GET from the database')
-  // connect to the database
-  const db = await openDB('jate', 1);
-  // create a transaction and specify permissions 
-  const tx = db.transaction('jate', 'readonly');
-  // access the object store
-  const store = tx.objectStore('jate');
-  // get the content from the store
-  const request = store.get(1);
-  // confirm the data was retrieved successfully
-  const result = await request;
-  console.log('data retrieved from the database', result?.value);
-  return result?.value;
-}
+  try {
+    console.log('GET from the database')
+    const db = await openDB('jate', 1);
+    const tx = db.transaction('jate', 'readonly');
+    const store = tx.objectStore('jate');
 
+    const request = store.get(1);
+    const result = await request;
+    console.log('result.value', result.value);
+    return result ? result.value : null;
+  } catch (error) {
+    console.log('Error getting data from the database', error)
+  }
+};
 
 initdb();
