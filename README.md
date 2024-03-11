@@ -10,6 +10,8 @@ To install this application, [click here](#) to visit the deployed site, and the
 
 ## Usage 
 
+![A screenshot of the J.A.T.E text editor](./client/src/images/jate-screenshot.png)
+
 To use the appliation online, visit the site. To open the the application offline, first install it, then click on the icon on your device. 
 
 Click on line 10 to move the cursor below the J.A.T.E. header, and then start typing. 
