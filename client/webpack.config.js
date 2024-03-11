@@ -4,13 +4,14 @@ const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
 // webpack configuration
-module.exports = () => {
+module.exports = (env, argv) => {
   return {
     mode: 'development',
     // entry point for the application
     entry: {
       main: './src/js/index.js',
-      install: './src/js/install.js'
+      install: './src/js/install.js', 
+      header: './src/js/header.js',
     },
     // output for the bundled files
     output: {
@@ -27,10 +28,12 @@ module.exports = () => {
       // webpack plugin to generate a service worker
       new InjectManifest({
         swSrc: './src-sw.js',
-        swDest: 'sw.js'
+        swDest: 'src-sw.js'
       }),
       // webpack plugin to generate a manifest.json file
       new WebpackPwaManifest({
+        fingerprints: false,
+        inject: true,
         name: 'Just Another Text Editor',
         short_name: 'J.A.T.E.',
         description: 'A simple text editor that runs in the browser and works offline.',
@@ -42,7 +45,7 @@ module.exports = () => {
           {
             src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
-            destination: path.join('icons'),
+            destination: path.join('assets', 'icons'),
           }
         ]
       })     
@@ -60,7 +63,9 @@ module.exports = () => {
         loader: 'babel-loader',
         options: {
           presets: ['@babel/preset-env'],
-          plugins: ['@babel/plugin-transform-runtime']}}
+          plugins: [
+            '@babel/plugin-transform-object-rest-spread',
+            '@babel/plugin-transform-runtime']}}
       },
     ],
     },

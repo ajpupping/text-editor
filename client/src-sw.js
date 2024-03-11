@@ -28,42 +28,29 @@ registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
 // TODO: Implement asset caching
 
-// style caching
+// asset caching (includes style, script, and service worker files)
 registerRoute(
-  ({ request }) => request.destination === 'style',
+  ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
   new CacheFirst({
-    cacheName: 'style-cache',
+    cacheName: 'asset-cache',
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
-      // cache for 30 days, limit to 50 entries
       new ExpirationPlugin({
+        // cache for 30 days
         maxAgeSeconds: 60 * 60 * 24 * 30,
-        maxEntries: 50,
       }),
     ],
   })
-);
-
-// image caching
-registerRoute(
-  ({ request }) => request.destination === 'image',
-  new CacheFirst({
-    cacheName: 'image-cache',
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [0, 200],
-      }),
-      // cache for 30 days, limit to 50 entries
-      new ExpirationPlugin({
-        maxAgeSeconds: 60 * 60 * 24 * 30,
-        maxEntries: 50,
-      }),
-    ],
-  })
-);
+  );
+  
 
 // TODO: Implement offline fallback
-
-registerRoute();
+offlineFallback({
+  pageFallback: '/index.html',
+  imageFallback: '/images/logo.png',
+  documentFallback: '/index.html',
+  cacheName: 'offline-fallback',
+  strategy: pageCache,
+})
